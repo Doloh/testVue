@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VueJS</title>
+</head>
+<body>
+    <div id="app">
+        <!-- La syntaxe {{ }} permet d'aller chercher le js, peut aussi executer des addition etc -->
+        <h1>{{ restaurantName }}</h1>
+        <p class="description">
+            Bienvenue chez {{ restaurantName }} ! Nous sommes réputés ! Faites vous plaisir à volonté. Mais attention, vous verrez qu'il est
+            difficile de s'arrêter.
+        </p>
+
+        <h2>Contactez nous</h2>
+			<p>Adresse : {{ adresse }}</p>
+			<p>Téléphone : {{ tel }}</p>
+			<p>Email : {{ email }}</p>
+			<p>Horaires :</p>
+			<ul>
+				<li>L-V: 06:00 à 16:00</li>
+				<li>Samedi: 07:00 à 14:00</li>
+				<li>Dimanche: 07:00 à 12:00</li>
+			</ul>
+
+        <section class="menu">
+            <h2>Simple menu</h2>
+            <ul>
+                <li v-for="plat in simpleMenu">
+                    <p>{{ plat.name }}</p>
+                    <img :src="plat.image.source" :alt="plat.image.alt"></a>
+                    <p v-if="plat.inStock === true">EN STOCK !!! Dépechez vous !</p>
+                    <p v-else>RUPTURE DE STOCK</p>
+                    <div v-if="plat.inStock === true" >
+                        <label for="add-item-quantity">Quantité :</label>
+                        <input id="add-item-quantity" type="number" v-model="plat.quantity"/>
+                        <button @click="addToShoppingCart(plat.quantity)">Ajouter au panier d'achat</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <aside class="shopping-cart">
+            <h2>Panier d'achat : {{ nbArticlePanier }} articles</h2>
+        </aside>
+
+        <footer class="footer">
+            <p> {{ displayCopyright }} </p>
+        </footer>
+    </div>
+
+    <!-- Integration de vue.js, important de le placer avant le reste du script pour qu'il charge -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="index.js"></script>
+    <!-- 
+        Les directives en vueJS permettent de coder l'affichage de la page directement dans le HTML, 
+        en ajoutant des conditions, des boucles, etc, (equivalent à du JSTL pour le JEE) 
+
+        - Dans la HTML le code est géré via {{ }}
+        - les directives sont gérés dans les emplacement d'attribut de balise
+
+        exemple: <p v-if="monBoolean == true"><p> (affiche la balise p si le boolean est true)
+        - v-show ets une condition comme v-if (prio pour elements qui permutent souvent)
+        - v-for="item in mesData" >>> dans la balise: {{item.nom}}
+        - v-bind > Important avec les data à mettre dans des attribut de balise ex: href
+        exemple: <a v-bind:href="{{item.url}}" 
+        >>> s'abrege simplement en :href
+        - v-on > Important: appel de fonction <button v-on:click="alert('bonjour')"
+        >>> s'abrege avec un @click
+    -->
+</body>
+</html>
